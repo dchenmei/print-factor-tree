@@ -1,15 +1,38 @@
+/*********************************************
+ * Factor tree root class, contains the fundamental
+ * features without a construction method.
+ *
+ * Author: swolewizard
+ *
+ * *******************************************/
+
 #include <iostream>
 
-using namespace std;
+using std::cout;
 
-void print_factor_tree()
+class Factor_Tree
 {
-	// Recursive, by finding the common greatest divisor of each and print each tree recurisvely as well 
-
-}
-
-int main()
-{
+  public:
 	
-	return 0;
-}
+	Factor_Tree(int r, vector<int> f)
+	{
+		root = r;
+		f = factor_tree;
+	}
+
+	void print_factor_tree()
+	{
+	
+
+	}
+
+	int get_root()
+		return root;
+
+	void set_root(int i)
+		root = i;
+
+  private:
+    int root;
+	vector<int> factor_tree;
+};
