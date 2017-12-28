@@ -6,14 +6,29 @@
  *	Author: swolewizard
  *
  *****************************************************/
-#include <iostream>
-#include <vector>
-#include <cmath>
-#include <algorithm>
 
-using std::vector;
-using std::sort;
-using std::cout;
+#include "factor.hpp"
+
+/* Returns greatest factor (not number itself) */
+/* Bonus: if the number is prime, it returns 0! */
+int greatest_factor(unsigned int i)
+{
+	if (i == 1)
+		return { 1 };
+	
+	int greatest_factor;
+	for (int a = 2, b = sqrt(i); a <= b; ++a)
+	{
+		/* Found greatest factor */
+		if (i % a == 0)
+		{
+	 		greatest_factor = i / a;
+			break;
+		}
+	}
+	
+	return greatest_factor;
+}
 
 vector<int> factor(unsigned int i)
 {	
@@ -35,4 +50,3 @@ vector<int> factor(unsigned int i)
 
 	return factors;
 }
-
