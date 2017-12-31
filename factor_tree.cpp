@@ -1,21 +1,31 @@
 #include "factor_tree.hpp"
 
-#define NO_FACTOR '+' /* Used to keep track of empty slots in factot tree */
+#define NO_FACTOR -1 /* Used to keep track of empty slots in factor tree */
 
-Factor_Tree::Factor_Tree(int r, bool even): root(r) 
+Factor_Tree::Factor_Tree(int r): root(r) 
 {
-	if (even) 
-	{
-		construct_even_factor_tree(r);
-	}
-	else 
-	{
-		construct_factor_tree(r);
-	}
+	construct_factor_tree(r);
 }
 
 void Factor_Tree::print_factor_tree()
 {
+	bool print_val = true;
+	for (int factor : factor_tree)
+	{
+		if (factor == NO_FACTOR)
+		{
+			if (print_val)
+			{
+				cout << endl;
+				print_val = false;
+			}
+		}
+		else
+		{
+			cout << factor << " ";
+			print_val = true;
+		}
+	}
 
 }
 
@@ -48,12 +58,22 @@ void Factor_Tree::construct_factor_tree(int r)
 
 		/* Process and pop value */
 		int curr = not_factored[0];
+		int curr_factor = greatest_factor(curr);
 		factor_tree.push_back(curr); /* Add to factor tree */
 
-		/* If not prime value, we need to factor further */
-		if (greatest_factor(curr))
+		/* No factor value, push placeholder in factor_tree */
+		if (curr == NO_FACTOR)
 		{
-            int curr_factor = greatest_factor(curr);
+			factor_tree.push_back(NO_FACTOR);
+		}
+		/* Prime, no factor */
+		else if (!curr_factor)
+		{
+			not_factored.push_back(NO_FACTOR);
+		}
+		/* Not prime or no factor, factor further */
+		else 
+		{
 			not_factored.push_back(curr_factor);
 			not_factored.push_back(curr / curr_factor);
 		}
@@ -62,13 +82,18 @@ void Factor_Tree::construct_factor_tree(int r)
 	}
 }
 
+/* Constructs a more balanced and slightly less unbalanced sort of tree
+void Factor_Tree::construct_even_factor_tree(int r)
+{
+
+}
+*/
+
 int main()
 {
-	Factor_Tree *tree = new Factor_Tree(48, false);
+	Factor_Tree *tree = new Factor_Tree(48);
 	vector<int> tv = tree->get_factor_tree();
+	tree->print_factor_tree();
 
-	for (int x : tv)
-		cout << x << " ";
-	
 	return 0;
 }

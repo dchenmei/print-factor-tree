@@ -11,12 +11,13 @@
 
 /* Returns greatest factor (not number itself) */
 /* Bonus: if the number is prime, it returns 0! */
-int greatest_factor(unsigned int i)
+int greatest_factor(int i)
 {
 	if (i == 1)
-		return { 1 };
+		return 1; 
 	
-	int greatest_factor;
+	/* Default is 0, so it works with the prime numbers such as 2 and 3 */
+	int greatest_factor = 0;
 	for (int a = 2, b = sqrt(i); a <= b; ++a)
 	{
 		/* Found greatest factor */
@@ -30,7 +31,7 @@ int greatest_factor(unsigned int i)
 	return greatest_factor;
 }
 
-vector<int> factor(unsigned int i)
+vector<int> factor(int i)
 {	
 
 	if (i == 1)
