@@ -7,25 +7,46 @@ Factor_Tree::Factor_Tree(int r): root(r)
 	construct_factor_tree(r);
 }
 
+int Factor_Tree::num_nodes(int level)
+{
+	return pow(2, level);
+}
+
 void Factor_Tree::print()
 {
-	bool print_val = true;
-	for (int factor : factor_tree)
+	/* Algorithm: Print the level expected number until done or hit -1 which stop printing */
+	int level = 0;
+	int to_print = num_nodes(level);
+	for (int i = 0, size = factor_tree.size(); i < size; ++i)
 	{
-		if (factor == NO_FACTOR)
+		int curr = factor_tree[i];
+		
+		if (curr == NO_FACTOR)
 		{
-			if (print_val)
+			if (i + 1 != size && factor_tree[i + 1] != NO_FACTOR)
 			{
 				cout << endl;
-				print_val = false;
+			
+				level++;
+				to_print = num_nodes(level);
 			}
+		}
+		else if (to_print == 0)
+		{
+			level++;
+			to_print = num_nodes(level) - 1;
+
+			cout << endl;
+			cout << factor_tree[i] << " ";
 		}
 		else
 		{
-			cout << factor << " ";
-			print_val = true;
+			cout << factor_tree[i] << " ";
+			to_print--;
 		}
 	}
+
+	cout << endl;
 }
 
 int Factor_Tree::get_root()
@@ -57,21 +78,18 @@ void Factor_Tree::construct_factor_tree(int r)
 
 		/* Process and pop value */
 		int curr = not_factored[0];
-		int curr_factor = greatest_factor(curr);
+		int curr_factor = (curr != NO_FACTOR ? greatest_factor(curr) : NO_FACTOR);
+			
 		factor_tree.push_back(curr); /* Add to factor tree */
 
-		/* No factor value, push placeholder in factor_tree */
-		if (curr == NO_FACTOR)
-		{
-			factor_tree.push_back(NO_FACTOR);
-		}
 		/* Prime, no factor */
-		else if (!curr_factor)
+		if (!curr_factor)
 		{
+			not_factored.push_back(NO_FACTOR);
 			not_factored.push_back(NO_FACTOR);
 		}
 		/* Not prime or no factor, factor further */
-		else 
+		else if (curr_factor != NO_FACTOR)
 		{
 			not_factored.push_back(curr_factor);
 			not_factored.push_back(curr / curr_factor);
@@ -92,7 +110,11 @@ int main()
 {
 	Factor_Tree *tree = new Factor_Tree(48);
 	vector<int> tv = tree->get_factor_tree();
-	tree->print_factor_tree();
+	for (int x : tv)
+		cout << x << " ";
+	cout << endl;
+
+	tree->print();
 
 	return 0;
 }
