@@ -9,7 +9,7 @@
  *
  *****************************************************/
 #include <iostream>
-#include "factor.cpp"
+#include "factor.hpp"
 
 using std::endl;
 
@@ -90,6 +90,13 @@ int main()
 			cout << "Test Failed: factor_777" << endl;
 		}
 	}	
+
+	cout << greatest_factor(5) << endl;
+	cout << greatest_factor(2) << endl;
+	vector<int> factor_48 = factor(8);
+	for (int x : factor_48)
+		cout << x << " ";
+	cout << endl;
 
 	return 0;
 }

@@ -9,14 +9,12 @@
 #ifndef FACTOR
 #define FACTOR
 
-#include <iostream>
 #include <vector>
-#include <cmath>
 #include <algorithm>
+#include <cmath>
 
 using std::vector;
 using std::sort;
-using std::cout;
 
 /* Returns greatest factor of i (positive integer), not including itself */
 int greatest_factor(int i);

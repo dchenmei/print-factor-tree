@@ -9,10 +9,13 @@
 #define FACTOR_TREE_HPP
 
 #include "factor.hpp" /* greatest_factor() */
+#include <iostream>
 #include <vector>
 #include <cmath>
 
 using std::vector;
+using std::cout;
+using std::endl;
 
 class Factor_Tree
 {
