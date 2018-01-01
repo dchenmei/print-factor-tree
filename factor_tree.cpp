@@ -1,36 +1,32 @@
 #include "factor_tree.hpp"
 
-#define NO_FACTOR -1 /* Used to keep track of empty slots in factor tree */
+#define NO_FACTOR -1 /* Used to keep track of childless nodes in factor tree */
 
 Factor_Tree::Factor_Tree(int r): root(r) 
 {
 	construct_factor_tree(r);
 }
 
-int Factor_Tree::num_nodes(int level)
-{
-	return pow(2, level);
-}
-
 void Factor_Tree::print()
 {
-	/* Algorithm: Print the level expected number until done or hit -1 which stop printing */
+	/* Set up intial level and number of nodes to print */
 	int level = 0;
 	int to_print = num_nodes(level);
+	
+	/* Algo: For each level, print until the expected number of nodes has reached or hit NO_FACTOR (-1) */
 	for (int i = 0, size = factor_tree.size(); i < size; ++i)
 	{
 		int curr = factor_tree[i];
 		
-		if (curr == NO_FACTOR)
+		/* Special case, NO_FACTOR indicates an end of a level */
+		if (curr == NO_FACTOR && i + 1 != size && factor_tree[i + 1] != NO_FACTOR)
 		{
-			if (i + 1 != size && factor_tree[i + 1] != NO_FACTOR)
-			{
-				cout << endl;
+			cout << endl;
 			
-				level++;
-				to_print = num_nodes(level);
-			}
+			level++;
+			to_print = num_nodes(level);
 		}
+		/* Special case, end of a level */
 		else if (to_print == 0)
 		{
 			level++;
@@ -64,25 +60,22 @@ void Factor_Tree::set_root(int i)
 	root = i;
 }
 
-/* Uneven factor tree construct using greedy algorithm */
+/* Construct an uneven factor tree using greedy algorithm */
 void Factor_Tree::construct_factor_tree(int r)
 {
-    /* Keep track of numbers we still need to factor */
+	/* Set up first element (root) */
 	vector<int> not_factored;
-	not_factored.push_back(r); /* Push root to start */
+	not_factored.push_back(r); 
 	
+	/* Algo: For every element, factor until it cannot be factored. Then insert them into the 
+     *       the factor tree */
 	while (!not_factored.empty())
 	{   
-		/* Instead of using the for loop, just keep checking the head to prevent
-*                out of bound shit storm */
-
-		/* Process and pop value */
+		/* Get curr value and calculate greatest factor for curr only if curr is not NO_FACTOR */
 		int curr = not_factored[0];
 		int curr_factor = (curr != NO_FACTOR ? greatest_factor(curr) : NO_FACTOR);
 			
-		factor_tree.push_back(curr); /* Add to factor tree */
-
-		/* Prime, no factor */
+		/* Prime, no factor. Both children are NO_FACTOR */
 		if (!curr_factor)
 		{
 			not_factored.push_back(NO_FACTOR);
@@ -95,26 +88,22 @@ void Factor_Tree::construct_factor_tree(int r)
 			not_factored.push_back(curr / curr_factor);
 		}
 	
-		not_factored.erase(not_factored.begin()); /* runs O(n), don't worry about it */
+		/* curr factored, push into factor_tree and pop from not_factored */
+		factor_tree.push_back(curr); 
+		not_factored.erase(not_factored.begin()); /* runs O(n), no bottleneck*/
 	}
 }
 
-/* Constructs a more balanced and slightly less unbalanced sort of tree
+/* Calculates the number of expected nodes for a complete binary tree on a certain level */
+int Factor_Tree::num_nodes(int level)
+{
+	/* Factor tree node number is calculated by 2^level */
+	return pow(2, level);
+}
+
+/* 
 void Factor_Tree::construct_even_factor_tree(int r)
 {
 
 }
 */
-
-int main()
-{
-	Factor_Tree *tree = new Factor_Tree(48);
-	vector<int> tv = tree->get_factor_tree();
-	for (int x : tv)
-		cout << x << " ";
-	cout << endl;
-
-	tree->print();
-
-	return 0;
-}
