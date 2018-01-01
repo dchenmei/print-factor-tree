@@ -1,9 +1,8 @@
 /*****************************************************
  *
- *	Computes all the factors of a positive integer, 
- *	returned in a sorted vector<int>
+ * Helper functions for computing factors
  *
- *	Author: swolewizard
+ * Author: swolewizard
  *
  *****************************************************/
 
@@ -19,9 +18,10 @@ using std::vector;
 using std::sort;
 using std::cout;
 
-/* Returns greatest factor (not number itself) */
-/* Bonus: if the number is prime, it returns 0! */
-int greatest_factor(unsigned int i);
-vector<int> factor(unsigned int i);
+/* Returns greatest factor of i (positive integer), not including itself */
+int greatest_factor(int i);
+
+/* Return a sorted list containing factors of i (positive integer), including one and i itself */
+vector<int> factor(int i);
 
 #endif
