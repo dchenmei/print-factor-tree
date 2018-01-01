@@ -18,13 +18,19 @@ void Factor_Tree::print()
 	{
 		int curr = factor_tree[i];
 		
-		/* Special case, NO_FACTOR indicates an end of a level */
-		if (curr == NO_FACTOR && i + 1 != size && factor_tree[i + 1] != NO_FACTOR)
+		/* Special case, NO_FACTOR */
+		if (curr == NO_FACTOR)
 		{
-			cout << endl;
+			/* End of a level */
+			if (i + 1 != size && factor_tree[i + 1] != NO_FACTOR)
+			{
+			    cout << endl;
 			
-			level++;
-			to_print = num_nodes(level);
+				level++;
+				to_print = num_nodes(level);
+			}
+		
+			/* Not end of a level, ignore */
 		}
 		/* Special case, end of a level */
 		else if (to_print == 0)
