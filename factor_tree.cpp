@@ -7,7 +7,7 @@ Factor_Tree::Factor_Tree(int r): root(r)
 	construct_factor_tree(r);
 }
 
-void Factor_Tree::print_factor_tree()
+void Factor_Tree::print()
 {
 	bool print_val = true;
 	for (int factor : factor_tree)
@@ -26,7 +26,6 @@ void Factor_Tree::print_factor_tree()
 			print_val = true;
 		}
 	}
-
 }
 
 int Factor_Tree::get_root()
